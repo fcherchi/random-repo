@@ -1,0 +1,73 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<title>Airports</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Bootstrap -->
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+	type="text/css" />
+</head>
+<body>
+	<div class="container">
+		<h2>Airports By Country</h2>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>ident</th>
+					<th>type</th>
+					<th>name</th>
+					<th>latitude_deg</th>
+					<th>longitude_deg</th>					
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="listRow : ${airports}">
+					<tr class="active">
+						<td th:text="${listRow['ID']}"></td>
+						<td th:text="${listRow['IDENT']}"></td>
+						<td th:text="${listRow['TYPE']}"></td>
+						<td th:text="${listRow['NAME']}"></td>
+						<td th:text="${listRow['LATITUDE_DEG']}"></td>
+						<td th:text="${listRow['LONGITUDE_DEG']}"></td>
+					</tr>
+					<tr th:if="${listRow['runways'].size() > 0}">
+						<td colspan="1"></td>
+						<td colspan="5">
+							<table class="table">
+								<thead>
+									<tr>										
+										<th>id</th>
+										<th>surface</th>
+										<th>length_ft</th>
+										<th>width_ft</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="runway : ${listRow['runways']}">										
+										<td th:text="${runway['ID']}"></td>
+										<td th:text="${runway['SURFACE']}"></td>
+										<td th:text="${runway['LENGTH_FT']}"></td>
+										<td th:text="${runway['WIDTH_FT']}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+
+		<div class="row">
+			<form class="pull-right" th:action="@{/query/findByCode/} + ${next}"  method="post">
+				<input type="hidden" name="code" th:value="${code}"/>
+				<button class="btn btn-default" type="submit">Next</button>
+	        </form>
+			<form class="pull-right" th:action="@{/query/findByCode/} + ${prev}"  method="post">
+				<input type="hidden" name="code" th:value="${code}"/>
+				<button class="btn btn-default" type="submit">Previous</button>
+	        </form>
+	    </div>
+	</div>
+
+</body>
+</html>

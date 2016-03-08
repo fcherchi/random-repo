@@ -1,0 +1,70 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<title>Airports</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Bootstrap -->
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+	type="text/css" />
+</head>
+<body>
+	<div class="container">
+		<h2>Countries with more airports</h2>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>CODE</th>
+					<th>NAME</th>
+					<th>COUNT</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="listRow : ${tenWithMore}">
+					<td class="col-sm-2" th:text="${listRow['ISO_COUNTRY']}"></td>
+					<td class="col-sm-7" th:text="${listRow['NAME']}"></td>
+					<td class="col-sm-3" th:text="${listRow['AIR_COUNT']}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<h2>Countries with less airports</h2>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>CODE</th>
+					<th>NAME</th>
+					<th>COUNT</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="listRow : ${tenWithLess}">
+					<td class="col-sm-2" th:text="${listRow['ISO_COUNTRY']}"></td>
+					<td class="col-sm-7" th:text="${listRow['NAME']}"></td>
+					<td class="col-sm-3" th:text="${listRow['AIR_COUNT']}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<h2>Surfaces per Country</h2>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>NAME</th>
+					<th>SURFACE</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="country : ${surfaces}">
+					<tr>
+						<td colspan="2" class="active" th:text="${country['name']} "></td>
+					</tr>
+					<th:block th:each="surface: ${country['list']}">
+						<tr th:if="${surface} != null">
+							<td class="col-sm-2"></td>
+							<td class="col-sm-10" th:text="${surface}"></td>
+						</tr>
+					</th:block>
+				</th:block>
+			</tbody>
+		</table>
+
+	</div>
+</body>
+</html>

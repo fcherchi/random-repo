@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<title>Airports</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Bootstrap -->
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+	type="text/css" />
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<h2>Queries</h2>
+		</div>
+		<div class="row">
+			<form th:action="@{query/findByCode/0}"  method="post">
+				<label for="code">Country Code or Name: (case sensitive, partial supported)</label><br/>
+				<input type="text" name="code"/>
+				<button class="btn btn-default" type="submit">Search</button>
+	        </form>
+	    </div>
+	</div>
+</body>
+</html>
