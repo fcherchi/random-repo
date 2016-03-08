@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.lunatech.airports.persistence.AirportMapper;
@@ -16,13 +17,13 @@ import com.lunatech.airports.services.QueryService;
 import com.lunatech.airports.services.ServiceException;
 
 /**
- * Service layer. In normal RDBM application we would configure the transactions
- * at this level
+ * Service layer.
  * 
  * @author Fernando
  *
  */
 @Service
+@Transactional
 public class QueryServiceImpl implements QueryService {
 
 	/** Access to the country repository */
@@ -41,6 +42,9 @@ public class QueryServiceImpl implements QueryService {
 	@Override
 	public List<Map<String, Object>> getAirports(String codeOrName, int offset, int limit) {
 		
+		if (codeOrName.length() < 2) {
+			throw new RuntimeException ("Minimum entry should contain 2 characters");
+		}
 		Map<String, Object> country = getCountryCode(codeOrName);
 		List<Map<String, Object>> airports = 
 				this.airportMapper.selectByCountryCodeWithRunaways(country.get(CountryColumn.CODE).toString(), offset, limit);

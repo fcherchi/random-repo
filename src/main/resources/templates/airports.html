@@ -12,12 +12,12 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th>id</th>
-					<th>ident</th>
-					<th>type</th>
-					<th>name</th>
-					<th>latitude_deg</th>
-					<th>longitude_deg</th>					
+					<th>Id</th>
+					<th>Ident</th>
+					<th>Type</th>
+					<th>Name</th>
+					<th>Latitude Deg.</th>
+					<th>Longitude Deg.</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -30,20 +30,20 @@
 						<td th:text="${listRow['LATITUDE_DEG']}"></td>
 						<td th:text="${listRow['LONGITUDE_DEG']}"></td>
 					</tr>
-					<tr th:if="${listRow['runways'].size() > 0}">
+					<tr th:if="${listRow['RUNWAYS'].size() > 0}">
 						<td colspan="1"></td>
 						<td colspan="5">
 							<table class="table">
 								<thead>
-									<tr>										
-										<th>id</th>
-										<th>surface</th>
-										<th>length_ft</th>
-										<th>width_ft</th>
+									<tr>
+										<th>Id</th>
+										<th>Surface</th>
+										<th>Length</th>
+										<th>Width</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="runway : ${listRow['runways']}">										
+									<tr th:each="runway : ${listRow['RUNWAYS']}">
 										<td th:text="${runway['ID']}"></td>
 										<td th:text="${runway['SURFACE']}"></td>
 										<td th:text="${runway['LENGTH_FT']}"></td>
@@ -58,15 +58,23 @@
 		</table>
 
 		<div class="row">
-			<form class="pull-right" th:action="@{/query/findByCode/} + ${next}"  method="post">
-				<input type="hidden" name="code" th:value="${code}"/>
+			<form class="pull-right" th:action="@{/query/findByCode/} + ${next}"
+				method="post">
+				<input type="hidden" name="code" th:value="${code}" />
 				<button class="btn btn-default" type="submit">Next</button>
-	        </form>
-			<form class="pull-right" th:action="@{/query/findByCode/} + ${prev}"  method="post">
-				<input type="hidden" name="code" th:value="${code}"/>
+			</form>
+			<form class="pull-right" th:action="@{/query/findByCode/} + ${prev}"
+				method="post">
+				<input type="hidden" name="code" th:value="${code}" />
 				<button class="btn btn-default" type="submit">Previous</button>
-	        </form>
-	    </div>
+			</form>
+			<div class="row">
+				<div class="btn btn-default">
+					<a href="/query">Back</a>
+				</div>
+			</div>
+		</div>
+
 	</div>
 
 </body>

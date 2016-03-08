@@ -12,12 +12,17 @@
 			<h2>Queries</h2>
 		</div>
 		<div class="row">
-			<form th:action="@{query/findByCode/0}"  method="post">
-				<label for="code">Country Code or Name: (case sensitive, partial supported)</label><br/>
-				<input type="text" name="code"/>
+			<form th:action="@{query/findByCode/0}" method="post">
+				<label for="code">Country Code or Name: (case sensitive,
+					partial supported)</label><br /> <input type="text" name="code" />
 				<button class="btn btn-default" type="submit">Search</button>
-	        </form>
-	    </div>
+			</form>
+		</div>
+		<div class="row">
+			<div class="btn btn-default">
+				<a href="/">Back</a>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

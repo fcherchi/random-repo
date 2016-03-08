@@ -16,8 +16,11 @@ import com.lunatech.airports.config.ApplicationConfig;
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = { ApplicationConfig.class })
 
 /**
- * This is more an integration test than an unit test. It reads the database.
- * Just to test the connections and query
+ * These are not normal unit tests, instead, these are accessing the real database.
+ * It is normally not being done in production, but since here the database is memory based
+ * and created at every execution, it is not a risk.
+ * 
+ * The tests in here are only testing that the sql syntax is correct.
  * 
  * @author Fernando
  *

@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -20,36 +19,39 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AirportMapper {
 
-	/** Selects by iso country */
-	@Select("SELECT * FROM airport WHERE iso_country = #{code}")
-	List<Map<String, Object>> selectByCountryCode(String code);
-
+	
 	/** Select countries with more airports */
-	@Select("SELECT TOP 10 iso_country, name, air_count FROM VIEW_COUNTRY_MAX INNER JOIN COUNTRY ON code=iso_country ORDER BY air_count DESC ")
+	@Select("SELECT TOP 10 ISO_COUNTRY, NAME, AIR_COUNT FROM VIEW_COUNTRY_MAX INNER JOIN COUNTRY ON CODE=ISO_COUNTRY ORDER BY AIR_COUNT DESC ")
 	List<Map<String, Object>> selectTenBest();
 
 	/** Select countries with less airports */
-	@Select("SELECT TOP 10 iso_country, name, air_count FROM VIEW_COUNTRY_MAX INNER JOIN COUNTRY ON code=iso_country ORDER BY air_count ASC ")
+	@Select("SELECT TOP 10 ISO_COUNTRY, NAME, AIR_COUNT FROM VIEW_COUNTRY_MAX INNER JOIN COUNTRY ON CODE=ISO_COUNTRY ORDER BY AIR_COUNT ASC ")
 	List<Map<String, Object>> selectTenWorst();
 
-	/** Selects by iso country */
-	@Select("SELECT id, ident, type, name, latitude_deg, longitude_deg FROM airport  WHERE iso_country = #{param1} LIMIT #{param2}, #{param3} ")
+	/** Selects by iso country 
+	 * Part One of the One To Many */
+	@Select("SELECT ID, IDENT, TYPE, NAME, LATITUDE_DEG, LONGITUDE_DEG FROM AIRPORT  WHERE ISO_COUNTRY = #{param1} LIMIT #{param2}, #{param3} ")
 	@Results(value = { 
-			@Result(column = "id", property="id"),
-			@Result(column = "name", property="name"),
-			@Result(column = "id", property="runways", many = @Many(select = "getRunways") ) })
+			@Result(column = "ID", property="ID"),
+			@Result(column = "NAME", property="NAME"),
+			@Result(column = "ID", property="RUNWAYS", many = @Many(select = "getRunways") ) })
 	List<Map<String, Object>> selectByCountryCodeWithRunaways(String code, int offset, int limit);
 
 
-
-	@Select("SELECT id, surface, length_ft, width_ft FROM runway WHERE airport_ref = #{airport_ref}")
+	/**
+	 * Gets the runways.
+	 * Part Many of the One to Many
+	 * @param airportRef
+	 * @return
+	 */
+	@Select("SELECT ID, SURFACE, LENGTH_FT, WIDTH_FT FROM RUNWAY WHERE AIRPORT_REF = #{airport_ref}")
 	List<Map<String, Object>> getRunways(String airportRef);
 
 	/**
 	 * @param string
 	 * @return
 	 */
-	@Select("SELECT count(id) FROM airport WHERE iso_country = #{code}")
+	@Select("SELECT COUNT(ID) FROM AIRPORT WHERE ISO_COUNTRY = #{code}")
 	int countByCountryCode(String string);
 
 }

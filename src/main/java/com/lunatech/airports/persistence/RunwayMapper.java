@@ -20,7 +20,7 @@ public interface RunwayMapper {
 	 * Gets the surfaces per country (one)
 	 * @return
 	 */
-	@Select("SELECT name from VIEW_SURFACE GROUP BY name order by name")
+	@Select("SELECT NAME FROM VIEW_SURFACE GROUP BY NAME ORDER BY NAME")
 	@Results(value = { 
 			@Result(column = "name", property="name"),
 			@Result(column = "name", property="list", many = @Many(select = "getSurfaces") ) })
@@ -31,7 +31,7 @@ public interface RunwayMapper {
 	 * @param name
 	 * @return
 	 */
-	@Select("SELECT surface from VIEW_SURFACE where name=#{name}")
+	@Select("SELECT SURFACE FROM VIEW_SURFACE WHERE NAME=#{name}")
 	List<String> getSurfaces(String name);
 
 }

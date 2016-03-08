@@ -19,6 +19,7 @@ import com.lunatech.airports.persistence.CountryMapper;
 import com.lunatech.airports.persistence.columns.CountryColumn;
 import com.lunatech.airports.services.Page;
 import com.lunatech.airports.services.QueryService;
+import com.lunatech.airports.services.ServiceException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class QueryServiceImplTest {
@@ -45,7 +46,9 @@ public class QueryServiceImplTest {
 		this.mockAirports = getMockAirports();
 		this.mockCountry = getMockCountry();
 		//inner call to the airports
-		Mockito.when(this.airportMapper.selectByCountryCode("NL")).thenReturn(this.mockAirports);
+		Mockito.when(this.airportMapper.selectByCountryCodeWithRunaways(
+				Mockito.eq("NL"), Mockito.anyInt(), Mockito.anyInt()))
+				.thenReturn(this.mockAirports);
 		
 		//first it will call to verify/get the country 
 		Mockito.when(this.countryMapper.selectByCode("NL")).thenReturn(this.mockCountry);
@@ -55,44 +58,44 @@ public class QueryServiceImplTest {
 	}
 
 	
-//	@Test
-//	public void testByName() throws Exception {
-//		
-//		List<Map<String, Object>> airports = this.queryService.getAirports("Neth");
-//		//check is calling country mapper
-//		Mockito.verify(this.countryMapper).selectByName("Neth");
-//		
-//		Assert.assertNotNull(airports);
-//		Assert.assertArrayEquals(mockAirports.toArray(), airports.toArray());
-//	}
-//	
+	@Test
+	public void testByName() throws Exception {
+		
+		List<Map<String, Object>> airports = this.queryService.getAirports("Neth", 1, 1);
+		//check is calling country mapper
+		Mockito.verify(this.countryMapper).selectByName("Neth%");
+		
+		Assert.assertNotNull(airports);
+		Assert.assertArrayEquals(mockAirports.toArray(), airports.toArray());
+	}
 	
-//	@Test
-//	public void testByCountryCode() throws Exception {
-//		
-//		List<Map<String, Object>> airports = this.queryService.getAirports("NL");
-//		//check is calling country mapper
-//		Mockito.verify(this.countryMapper).selectByCode("NL");
-//		
-//		Assert.assertNotNull(airports);
-//		Assert.assertArrayEquals(mockAirports.toArray(), airports.toArray());
-//	}
-//	
-//	@Test(expected=ServiceException.class)
-//	public void testWhenNoCountryFoundByCode() throws Exception {
-//		
-//		
-//		List<Map<String, Object>> airports = this.queryService.getAirports("XX");
-//		
-//		//first it is called by code, nothing found
-//		Mockito.verify(this.countryMapper).selectByCode("XX");
-//		
-//		//then it should call by name, nothing found, exception
-//		Mockito.verify(this.countryMapper).selectByName("XX");
-//		
-//		//normally should not get there
-//		Assert.assertFalse("Exception should have occurred.", airports == null);
-//	}
+	
+	@Test
+	public void testByCountryCode() throws Exception {
+		
+		List<Map<String, Object>> airports = this.queryService.getAirports("NL", 1, 1);
+		//check is calling country mapper
+		Mockito.verify(this.countryMapper).selectByCode("NL");
+		
+		Assert.assertNotNull(airports);
+		Assert.assertArrayEquals(mockAirports.toArray(), airports.toArray());
+	}
+	
+	@Test(expected=ServiceException.class)
+	public void testWhenNoCountryFoundByCode() throws Exception {
+		
+		
+		List<Map<String, Object>> airports = this.queryService.getAirports("XX", 1, 1);
+		
+		//first it is called by code, nothing found
+		Mockito.verify(this.countryMapper).selectByCode("XX");
+		
+		//then it should call by name, nothing found, exception
+		Mockito.verify(this.countryMapper).selectByName("XX");
+		
+		//normally should not get there
+		Assert.assertFalse("Exception should have occurred.", airports == null);
+	}
 	
 
 

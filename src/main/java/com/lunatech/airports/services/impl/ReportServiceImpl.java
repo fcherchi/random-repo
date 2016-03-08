@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lunatech.airports.persistence.AirportMapper;
 import com.lunatech.airports.persistence.RunwayMapper;
@@ -19,6 +20,7 @@ import com.lunatech.airports.services.ReportService;
  *
  */
 @Service
+@Transactional
 public class ReportServiceImpl implements ReportService {
 
 	

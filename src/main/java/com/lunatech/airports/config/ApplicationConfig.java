@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * The spring configuration (annotation based)
@@ -23,15 +24,12 @@ import org.springframework.stereotype.Repository;
 @Configuration
 @ComponentScan("com.lunatech.airports")
 @MapperScan(basePackages = { "com.lunatech.airports.persistence" }, annotationClass = Repository.class)
-// @EnableTransactionManagement
+@EnableTransactionManagement
 public class ApplicationConfig {
 
 	/** The logger */
 	final Logger logger = (Logger) LoggerFactory.getLogger(ApplicationConfig.class);
 
-	// ===============================
-	// Database Init
-	// ===============================
 
 	/**
 	 * Creates the database in memory and reads the dbinit file from resources

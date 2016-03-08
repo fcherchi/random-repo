@@ -1,7 +1,3 @@
-/**
- * Copyright (c) 2016 SMRT Projects BV.
- * Created: 6 Mar 2016 17:53:32 Author: Fernando
- */
 
 package com.lunatech.airports.persistence.columns;
 

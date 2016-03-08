@@ -16,7 +16,16 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import com.lunatech.airports.config.ApplicationConfig;
 
 
-
+/**
+ * These are not normal unit tests, instead, these are accessing the real database.
+ * It is normally not being done in production, but since here the database is memory based
+ * and created at every execution, it is not a risk.
+ * 
+ * The tests in here are only testing that the sql syntax is correct.
+ * 
+ * @author Fernando
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = { ApplicationConfig.class })
 public class AirportMapperTest {
@@ -30,33 +39,29 @@ public class AirportMapperTest {
 	final Logger logger = (Logger) LoggerFactory.getLogger(AirportMapperTest.class);
 
 	
-	@Test
-	public void testSelectByCountryCode() throws Exception {
-		List<Map<String, Object>> airports =  this.airportMapper.selectByCountryCode("NL");
-		
-		//logger.info("{} Airports in NL", airports.size());
-		//logger.info(airports.get(0).toString());
-		
-		Assert.assertEquals(80, airports.size());
-	}
 
 	@Test
 	public void testSelectTenBest() throws Exception {
 		List<Map<String, Object>> countries =  this.airportMapper.selectTenBest();
-		logger.info(countries.get(0).toString());
+		Assert.assertEquals(10, countries.size());
+	}
+	
+	@Test
+	public void testSelectTenWorst() throws Exception {
+		List<Map<String, Object>> countries =  this.airportMapper.selectTenWorst();
+		Assert.assertEquals(10, countries.size());
 	}
 
 	@Test
 	public void testGetRunways() throws Exception {
 		
-		//List<Map<String, Object>> runways =  this.airportMapper.getRunways("6669");
 		List<Map<String, Object>> list = this.airportMapper.selectByCountryCodeWithRunaways("ES", 10, 4);
-		logger.debug("" + list.size());
-		//Map<String, Object> airports = this.airportMapper.selectByCodeWithRunways("6669");
-		//logger.debug("" + airports.keySet().size());
-		//logger.debug(airports.toString());
-		
-		//Airport airport = this.airportMapper.selectByCodeWithRunways("6669");
-		//logger.debug(airport.getRunways().toString());
+		Assert.assertEquals(4, list.size());
+	}
+
+	@Test
+	public void testCountByCountryCode() throws Exception {
+		int res = this.airportMapper.countByCountryCode("ES");
+		Assert.assertNotEquals(-1, res);
 	}
 }

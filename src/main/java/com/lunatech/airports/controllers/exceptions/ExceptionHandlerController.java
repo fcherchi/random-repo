@@ -1,4 +1,4 @@
-package com.lunatech.airports.controllers;
+package com.lunatech.airports.controllers.exceptions;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,6 +13,12 @@ public class ExceptionHandlerController {
 	/** The logger */
 	final Logger logger = (Logger) LoggerFactory.getLogger(ExceptionHandlerController.class);
 
+	/**
+	 * Handles the exception and redirects to error page
+	 * 
+	 * @param exception
+	 * @return
+	 */
 	@ExceptionHandler
 	public ModelAndView exception(Exception exception) {
 		logger.error(exception.getMessage(), exception);
